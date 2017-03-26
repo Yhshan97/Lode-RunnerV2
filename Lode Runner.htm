@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>Lode Runner par Yaohua Shan et Alain Abboud</title>
+	<script type="text/javascript" src="InitNiveaux/CreerNiveaux.js"></script>
+	<script type="text/javascript" src="InitNiveaux/MouvementJoueur.js"></script>
+	<script type="text/javascript" src="InitNiveaux/Gardes.js"></script>
+	<script type="text/javascript" src="InitNiveaux/Verifications.js"></script>
+
+	<script type="text/javascript">
+		var objCanvas = null;
+		var objC2D = null;
+		var objCycleAnimation = null;
+		var tableLayoutDuNiveau1 = null;
+
+		var imgMur = new Image();
+		var imgEchelle = new Image();
+		var imgCorde = new Image();
+		var imgLingotOr = new Image();
+		var imgJoueur = new Image();
+		var imgBase = new Image();
+		var imgTransp = new Image();
+
+		var tableauPersonnages = null;
+		var tableauNiveauObjects = null;
+		var tableauMursCreusees = null;
+
+		var objDate = null;
+		var strTemps = 0;
+		var msCumulee = 0;
+		var nbGardes = 3;
+		var nbLingots = 0;
+		var scoreDeCeNiveau = 0;
+		var scoreTotal = 0;
+		var vies = 5;
+
+		var active = null;
+		var gameOver = new Object();
+		var enMouvement = null;
+		var keyCode = null;
+		var objetSons = null;
+
+		/* TO DO LIST :
+			-Create display of the score / lives / time passed - ALain
+			---Creer trous (press x / z) (done)
+			-Put in sounds - Alain
+			---Create Guard's algorithim / spawns (done)
+			---Adding scores (done)
+			---Make him die (done)
+			---Collisions (done)
+			---Restart level upon reaching the end (done)
+			---Add a guard on next level (done)
+			---Kill lodeRunner when hole is filled on him (done)
+			---Next level animation (done)
+			--Create GameOver screen (done sorta)
+			...
+		 */
+
+		function initAnimation() {
+			objCanvas = document.getElementById('monCanvas');
+			objC2D = objCanvas.getContext('2d');
+
+			imgTransp.src = "sources/Transparent.jpg";
+			imgMur.src = "sources/Floor.jpg";
+			imgEchelle.src = "sources/Ladder.jpg";
+			imgLingotOr.src = "sources/Gold.jpg";
+			imgCorde.src = "sources/Rope.jpg";
+			imgJoueur.src = "sources/Joueur.jpg";
+			imgBase.src = "sources/Base.jpg";
+			imgGarde.src = "sources/Garde.png";
+			gameOver.boo = false;
+			gameOver.rotation = 0;
+
+			reinit();
+			animer();
+		}
+
+		function reinit() {
+			active = false;
+			enMouvement = false;
+			keyCode = 0;
+			dateDebut = new Date();
+			msCumulee = 0;
+			scoreDeCeNiveau = 0;
+			//initiation de la structure du niveau
+			initTableauNiveau1();
+			initTableauObjects();
+			creerTableauNiveauObjects();
+			//generer tous les gardes
+			initPersonnage(0, objCanvas.width / 2, 14 * 40);
+			for (var i = 1; i < nbGardes + 1; i++)
+				initPersonnage(i, 0, 0);
+		}
+
+		function initPersonnage(id, x, y) {
+			var runner = new Object();
+			runner.id = id;
+			runner.etat = 0;
+			runner.etat2 = 0;
+			runner.nbFoisMemeEtat = 0;
+			runner.posX = x;
+			runner.posY = y;
+			runner.dernierDirection = "right";
+			runner.nbIngots = 0;
+			runner.mort = false;
+			if (id == 0)
+				runner.image = imgJoueur;
+			else {
+				runner.image = imgGarde;
+				runner.mouvement = "";
+				runner.nbPas = 0;
+				runner.stunTime = 0;
+				initTrouverSpawnPourGarde(runner);
+			}
+			tableauPersonnages.push(runner)
+		}
+
+		function initTableauObjects() {
+			tableauMursCreusees = [];
+			tableauPersonnages = [];
+			tableauNiveauObjects = new Array(17);
+			for (i = 0; i < tableauNiveauObjects.length; i++)
+				tableauNiveauObjects[i] = new Array(28);
+		}
+
+		function initSons() {
+        objetSons = new Object();
+
+        var son = document.createElement('audio');
+        son.setAttribute('src', 'sources/ .mp3');
+        son.load();
+        sons.ramasseIngot = son;
+
+        son = document.createElement('audio');
+        son.setAttribute('src', 'sources/ .mp3');
+        son.load();
+        sons.faitUneChute = son;
+
+        son = document.createElement('audio');
+        son.setAttribute('src', 'sources/ .mp3');
+        son.load();
+        sons.creuseUnTrou = son;
+
+        son = document.createElement('audio');
+        son.setAttribute('src', 'sources/ .mp3');
+        son.load();
+        sons.trouSeRemplit = son;
+
+				son = document.createElement('audio');
+        son.setAttribute('src', 'sources/ .mp3');
+        son.load();
+        sons.perdUneVie = son;
+
+				son = document.createElement('audio');
+        son.setAttribute('src', 'sources/ .mp3');
+        son.load();
+        sons.gameOver = son;
+
+				son = document.createElement('audio');
+        son.setAttribute('src', 'sources/ .mp3');
+        son.load();
+        sons.prochainNiveau = son;
+
+				son = document.createElement('audio');
+        son.setAttribute('src', 'sources/ .mp3');
+        son.load();
+        sons.gardeTombeDansTrou = son;
+
+				son = document.createElement('audio');
+        son.setAttribute('src', 'sources/ .mp3');
+        son.load();
+        sons.gardeMeurt = son;
+    }
+
+		function chrono() {
+			var milli = msCumulee % 1000;
+			var sec = parseInt((msCumulee / 1000) % 60);
+			var min = parseInt((msCumulee / 60000) % 60);
+
+			if (min < 10) min = '0' + min;
+			if (sec < 10) sec = '0' + sec;
+			if (active) {
+				objDate = new Date();
+				var intMsEcoulees = objDate - dateDebut;
+				dateDebut = objDate;
+				msCumulee += intMsEcoulees;
+			}
+			strTemps = min + ":" + sec;
+		}
+
+		function gestionKeys() {
+			if (enMouvement && !tableauPersonnages[0].falling) {
+				switch (keyCode) {
+					case 37: //Appui sur la fleche gauche
+						gauche(tableauPersonnages[0]);
+						break;
+					case 38: //Appui sur la fleche du haut
+						monter(tableauPersonnages[0], false);
+						break;
+					case 39: //Appui sur la fleche droite
+						droite(tableauPersonnages[0]);
+						break;
+					case 40: //Appui sur la fleche du bas
+						descendre(tableauPersonnages[0]);
+						break;
+				}
+			}
+		}
+
+		function dessinerNiveau() {
+			//Dessine fond noir
+			objC2D.save();
+			objC2D.fillRect(0, 0, objCanvas.width, objCanvas.height);
+			//Dessine tous les objets
+			for (var y = 0; y < tableauNiveauObjects.length; y++)
+				for (var x = 0; x < tableauNiveauObjects[y].length; x++)
+					if (tableauNiveauObjects[y][x].visible)
+						objC2D.drawImage(tableauNiveauObjects[y][x].image, tableauNiveauObjects[y][x].x, tableauNiveauObjects[y][x].y, 35, 40);
+			//A faire: Le menu du bas ici.
+
+			//Dessin du menu
+			objC2D.fillStyle = 'gray';
+			objC2D.fillRect(0, 665, objCanvas.width, 35);
+			objC2D.fillStyle = 'white';
+			objC2D.fillText("PosX: " + tableauPersonnages[0].posX + " PosY: " + tableauPersonnages[0].posY + " " +
+				msCumulee + " " + parseInt(scoreTotal + scoreDeCeNiveau) + " " + scoreDeCeNiveau, 300, 30);
+
+			objC2D.restore();
+			objC2D.font = '15pt Arial';
+			objC2D.fillText("Temps écoulé: " + strTemps, 25, 690);
+			objC2D.fillText("Vies: " + vies, objCanvas.width / 4 + 75, 690);
+			objC2D.fillText("Nombre d'ingots trouvés: " + tableauPersonnages[0].nbIngots, objCanvas.width / 2, 690);
+			objC2D.fillText("Niveau: " + (nbGardes - 2), objCanvas.width / 4 * 3 + 100, 690);
+		}
+
+		function dessinerJoueur() {
+			objC2D.save();
+			for (var i = 0; i < tableauPersonnages.length; i++) {
+				objC2D.drawImage(tableauPersonnages[i].image, tableauPersonnages[i].etat * 40,
+					tableauPersonnages[i].etat2 * 44, 40, 44, tableauPersonnages[i].posX,
+					tableauPersonnages[i].posY, 35, 40);
+				if (i > 0 && tableauPersonnages[i].nbIngots == 1) { //Dessine un coin s"il possede un lingot
+					objC2D.fillStyle = "gold";
+					objC2D.font = '15pt Berlin Sans';
+					objC2D.beginPath();
+					objC2D.fillStyle = "gold";
+					objC2D.arc(tableauPersonnages[i].posX + (35 / 2), tableauPersonnages[i].posY - 15, 12, 0, 2 * Math.PI);
+					objC2D.fill();
+					objC2D.beginPath();
+					objC2D.fillStyle = "orange";
+					objC2D.arc(tableauPersonnages[i].posX + (35 / 2), tableauPersonnages[i].posY - 15, 9, 0, 2 * Math.PI);
+					objC2D.fill();
+					objC2D.fillStyle = "yellow";
+					objC2D.fillText("1", tableauPersonnages[i].posX + (35 / 2) - 5, tableauPersonnages[i].posY - 8);
+				}
+			}
+			objC2D.restore();
+		}
+
+		function gameOverAnimation() {
+			objC2D.save()
+			if (gameOver.rotation <= 718) {
+				gameOver.rotation += 2;
+			} else {
+				arreterAnimation();
+			}
+			objC2D.translate(objCanvas.width / 2, objCanvas.height / 2)
+
+			objC2D.fillStyle = "Yellow";
+			objC2D.font = "130pt Berlin Sans bold";
+			objC2D.rotate(Math.PI * gameOver.rotation / 180)
+			objC2D.fillText("Game Over", -420, 50);
+
+			objC2D.restore();
+		}
+
+		function effacerDessin() {
+			objC2D.clearRect(0, 0, objCanvas.width, objCanvas.height);
+		}
+
+		function mettreEnMouvement() {
+			keyCode = event.keyCode;
+			if (!active) {
+				active = true;
+				dateDebut = new Date();
+			}
+			switch (keyCode) {
+				case 90: //z
+					creuserGauche(tableauPersonnages[0]);
+					break;
+				case 88: //x
+					creuserDroite(tableauPersonnages[0]);
+					break;
+				default: //haut,gauche,droite,bas
+					enMouvement = true;
+					break;
+			}
+		}
+
+		function pasMettreEnMouvement() {
+			keyCode = 0;
+			enMouvement = false;
+		}
+
+		function mettreAJourAnimation() {
+			if (!gameOver.boo) {
+				if (tableauPersonnages[0].posY <= 0 && tableauPersonnages[0].nbIngots >= nbLingots)
+					finitNiveau();
+				else if (tableauPersonnages[0].mort)
+					mortLodeRunner();
+				else {
+					verifierCollisionsEtMortDeLodeRunner();
+					verifierToutPersonnagesChute();
+					verifierSixLingotsEtGenereEchelle();
+					boucherLesTrous();
+					gestionKeys();
+					bougerGardes();
+					collisionBarreIngot();
+				}
+				chrono();
+				dessinerNiveau();
+				dessinerJoueur();
+			} else {
+				chrono();
+				dessinerNiveau();
+				dessinerJoueur();
+				gameOverAnimation();
+			}
+		}
+
+		function animer() {
+			objCycleAnimation = requestAnimationFrame(animer);
+			effacerDessin();
+			mettreAJourAnimation();
+
+		}
+
+		function arreterAnimation() {
+			if (objCycleAnimation != null)
+				cancelAnimationFrame(objCycleAnimation);
+			objCycleAnimation = null;
+
+		}
+	</script>
+</head>
+
+<body onload="initAnimation()">
+	<main>
+		<canvas id="monCanvas" width="980" height="700" tabindex="1" onkeydown="mettreEnMouvement()" onkeyup="pasMettreEnMouvement()">
+		    Votre navigateur ne supporte pas la balise canvas
+	    </canvas>
+	</main>
+</body>
+
+</html>
