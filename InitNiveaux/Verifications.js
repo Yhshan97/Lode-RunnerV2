@@ -11,8 +11,12 @@ function estUneChute(runner) {
         var boolean = (tableauNiveauObjects[y][x].id != 3 && (tableauNiveauObjects[y + 1][x].id == 0 || tableauNiveauObjects[y + 1][x].id == 4 ||
             tableauNiveauObjects[y + 1][x].id == 3 || (tableauNiveauObjects[y + 1][x].id == 1 &&
                 tableauNiveauObjects[y + 1][x].visible == false))) && boolean2;
-        if (runner.id == 0)
+        if (runner.id == 0){
+            if(boolean){
+              auFall.play();
+            }
             return boolean;
+          }
         else
             return boolean && tableauNiveauObjects[y][x].id != 1 && runner.mouvement != "sortir" && runner.mouvement != "floating";
     }
@@ -27,7 +31,11 @@ function collisionBarreIngot() {
                     (tableauPersonnages[i].id != 0 && tableauPersonnages[i].nbIngots == 0))) {
                 tableauNiveauObjects[y][x] = tableauNiveauObjects[0][0];
                 tableauPersonnages[i].nbIngots++;
-                if (i == 0) scoreDeCeNiveau += 250;
+                if (i == 0){
+                  scoreDeCeNiveau += 250;
+                  auCoin.load();
+                  auCoin.play();
+                }
             }
     }
 }
