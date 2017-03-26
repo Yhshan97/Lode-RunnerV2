@@ -131,7 +131,7 @@ function tomber(runner) {
     else {
       runner.falling = false;
       auFall.pause();
-      auFall.load();
+      //auFall.load();
     }
 
 }
