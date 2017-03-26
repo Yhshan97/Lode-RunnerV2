@@ -128,53 +128,53 @@
 		}
 
 		function initSons() {
-        objetSons = new Object();
+			objetSons = new Object();
 
-        var son = document.createElement('audio');
-        son.setAttribute('src', 'sources/Coin.mp3');
-        son.load();
-        sons.ramasseIngot = son;
+			var son = document.createElement('audio');
+			son.setAttribute('src', 'sources/Coin.mp3');
+			son.load();
+			sons.ramasseIngot = son;
 
-        son = document.createElement('audio');
-        son.setAttribute('src', 'sources/ .mp3');
-        son.load();
-        sons.faitUneChute = son;
+			son = document.createElement('audio');
+			son.setAttribute('src', 'sources/ .mp3');
+			son.load();
+			sons.faitUneChute = son;
 
-        son = document.createElement('audio');
-        son.setAttribute('src', 'sources/ .mp3');
-        son.load();
-        sons.creuseUnTrou = son;
+			son = document.createElement('audio');
+			son.setAttribute('src', 'sources/ .mp3');
+			son.load();
+			sons.creuseUnTrou = son;
 
-        son = document.createElement('audio');
-        son.setAttribute('src', 'sources/ .mp3');
-        son.load();
-        sons.trouSeRemplit = son;
+			son = document.createElement('audio');
+			son.setAttribute('src', 'sources/ .mp3');
+			son.load();
+			sons.trouSeRemplit = son;
 
-				son = document.createElement('audio');
-        son.setAttribute('src', 'sources/ .mp3');
-        son.load();
-        sons.perdUneVie = son;
+			son = document.createElement('audio');
+			son.setAttribute('src', 'sources/ .mp3');
+			son.load();
+			sons.perdUneVie = son;
 
-				son = document.createElement('audio');
-        son.setAttribute('src', 'sources/ .mp3');
-        son.load();
-        sons.gameOver = son;
+			son = document.createElement('audio');
+			son.setAttribute('src', 'sources/ .mp3');
+			son.load();
+			sons.gameOver = son;
 
-				son = document.createElement('audio');
-        son.setAttribute('src', 'sources/ .mp3');
-        son.load();
-        sons.prochainNiveau = son;
+			son = document.createElement('audio');
+			son.setAttribute('src', 'sources/ .mp3');
+			son.load();
+			sons.prochainNiveau = son;
 
-				son = document.createElement('audio');
-        son.setAttribute('src', 'sources/ .mp3');
-        son.load();
-        sons.gardeTombeDansTrou = son;
+			son = document.createElement('audio');
+			son.setAttribute('src', 'sources/ .mp3');
+			son.load();
+			sons.gardeTombeDansTrou = son;
 
-				son = document.createElement('audio');
-        son.setAttribute('src', 'sources/ .mp3');
-        son.load();
-        sons.gardeMeurt = son;
-    }
+			son = document.createElement('audio');
+			son.setAttribute('src', 'sources/ .mp3');
+			son.load();
+			sons.gardeMeurt = son;
+		}
 
 		function chrono() {
 			var milli = msCumulee % 1000;
@@ -190,25 +190,6 @@
 				msCumulee += intMsEcoulees;
 			}
 			strTemps = min + ":" + sec;
-		}
-
-		function gestionKeys() {
-			if (enMouvement && !tableauPersonnages[0].falling) {
-				switch (keyCode) {
-					case 37: //Appui sur la fleche gauche
-						gauche(tableauPersonnages[0]);
-						break;
-					case 38: //Appui sur la fleche du haut
-						monter(tableauPersonnages[0], false);
-						break;
-					case 39: //Appui sur la fleche droite
-						droite(tableauPersonnages[0]);
-						break;
-					case 40: //Appui sur la fleche du bas
-						descendre(tableauPersonnages[0]);
-						break;
-				}
-			}
 		}
 
 		function dessinerNiveau() {
@@ -282,7 +263,7 @@
 			objC2D.clearRect(0, 0, objCanvas.width, objCanvas.height);
 		}
 
-		function mettreEnMouvement() {
+		function mettreEnMouvement(event) {
 			keyCode = event.keyCode;
 			if (!active) {
 				active = true;
@@ -301,9 +282,31 @@
 			}
 		}
 
-		function pasMettreEnMouvement() {
-			keyCode = 0;
-			enMouvement = false;
+
+		function gestionKeys() {
+			if (enMouvement && !tableauPersonnages[0].falling) {
+				switch (keyCode) {
+					case 37: //Appui sur la fleche gauche
+						gauche(tableauPersonnages[0]);
+						break;
+					case 38: //Appui sur la fleche du haut
+						monter(tableauPersonnages[0], false);
+						break;
+					case 39: //Appui sur la fleche droite
+						droite(tableauPersonnages[0]);
+						break;
+					case 40: //Appui sur la fleche du bas
+						descendre(tableauPersonnages[0]);
+						break;
+				}
+			}
+		}
+
+		function pasMettreEnMouvement(event) {
+			if (event.keyCode == keyCode) {
+				keyCode = 0;
+				enMouvement = false;
+			}
 		}
 
 		function mettreAJourAnimation() {
@@ -350,7 +353,7 @@
 
 <body onload="initAnimation()">
 	<main>
-		<canvas id="monCanvas" width="980" height="700" tabindex="1" onkeydown="mettreEnMouvement()" onkeyup="pasMettreEnMouvement()">
+		<canvas id="monCanvas" width="980" height="700" tabindex="1" onkeydown="mettreEnMouvement(event)" onkeyup="pasMettreEnMouvement(event)">
 		    Votre navigateur ne supporte pas la balise canvas
 	    </canvas>
 	</main>

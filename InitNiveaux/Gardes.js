@@ -67,7 +67,6 @@ function bougerGardes() {
                         tableauPersonnages[i].nbIngots--;
                     }
                 }
-
         }
 
         if (tableauPersonnages[i].nbPas <= 0 && tableauPersonnages[i].mouvement == "sortir") {
