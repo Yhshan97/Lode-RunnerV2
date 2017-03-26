@@ -123,7 +123,7 @@ function initTrouverSpawnPourGarde(runner) {
                     random2 = Math.floor((Math.random() * 30) + 1);
                     trouve = true;
                     for (var i = 0; i < tableauPersonnages.length && trouve; i++) {
-                        if (x * 35 == parseInt(tableauPersonnages[i].posX) && y * 40 == parseInt(tableauPersonnages[i].posY))
+                        if (x == parseInt((tableauPersonnages[i].posX + 15) / 35) && y == parseInt(tableauPersonnages[i].posY) / 40 )
                             trouve = false;
                     }
                     if (trouve && random2 == 5) {

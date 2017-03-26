@@ -82,9 +82,7 @@ function descendre(runner) {
     } else if ((tableauNiveauObjects[y + 1][x].id != 1 || tableauNiveauObjects[y + 1][x].id == 2) &&
         tableauNiveauObjects[y][x].id == 3)
         runner.falling = true;
-        if(runner.id==0){
-          auFall.play();
-        }
+
 }
 
 function monter(runner, sortirTrou) {
@@ -127,11 +125,14 @@ function tomber(runner) {
 
     if (tableauNiveauObjects[parseInt(runner.posY / 40) + 1][parseInt((runner.posX + 15) / 35)].id == 0){
         runner.falling = true;
+        if(runner.id==0){
+          auFall.play();
+        }
       }
     else {
       runner.falling = false;
       auFall.pause();
-      //auFall.load();
+      auFall.load();
     }
 
 }
