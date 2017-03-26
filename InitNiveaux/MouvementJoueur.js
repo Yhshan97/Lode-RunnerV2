@@ -157,7 +157,8 @@ function creuserGauche(runner) {
     var y = parseInt(runner.posY / 40);
     var x = parseInt((runner.posX + 15) / 35);
 
-    if (runner.posX > 45)
+    if (runner.posX > 35)
+    if (!runner.falling)
         if (tableauNiveauObjects[y + 1][x - 1].id == 1 &&
             tableauNiveauObjects[y][x - 1].id == 0 &&
             tableauNiveauObjects[y + 1][x - 1].visible) {
@@ -176,6 +177,7 @@ function creuserDroite(runner) {
     var x = parseInt((runner.posX + 15) / 35);
 
     if (runner.posX < 1299)
+    if (!runner.falling)
         if (tableauNiveauObjects[y + 1][x + 1].id == 1 &&
             tableauNiveauObjects[y][x + 1].id == 0 &&
             tableauNiveauObjects[y + 1][x + 1].visible) {
