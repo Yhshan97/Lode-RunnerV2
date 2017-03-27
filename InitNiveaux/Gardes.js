@@ -73,7 +73,6 @@ function bougerGardes() {
         if (tableauPersonnages[i].nbPas <= 0 && tableauPersonnages[i].mouvement == "sortir") {
             tableauPersonnages[i].mouvement = "floating";
             tableauPersonnages[i].nbPas = 20;
-            auGuard.play();
         }
         if (tableauPersonnages[i].nbPas <= 0 && tableauPersonnages[i].mouvement == "floating") {
             tableauPersonnages[i].mouvement = "";
@@ -93,6 +92,7 @@ function bougerGardes() {
         }
         if (tableauNiveauObjects[y][x].id == 1 && !tableauNiveauObjects[y][x].visible &&
             tableauNiveauObjects[y][x].x == x * 35 && tableauNiveauObjects[y][x].y == y * 40) {
+            console.log((x * 35) + " " + (y * 40) + " " + tableauPersonnages[i].nbIngots + " " + tableauNiveauObjects[y][x].x + " " + tableauNiveauObjects[y][x].y);
             if (tableauPersonnages[i].nbIngots == 1) {
                 var objet = new Object();
                 objet.name = "Ingot";
@@ -110,6 +110,7 @@ function bougerGardes() {
                 tableauPersonnages[i].stunTime = msCumulee + 4000;
                 tableauPersonnages[i].mouvement = "stunned";
                 scoreDeCeNiveau += 75;
+                auGuard.play();
             }
         }
         tableauPersonnages[i].nbPas--;

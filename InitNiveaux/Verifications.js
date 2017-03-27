@@ -26,17 +26,20 @@ function collisionBarreIngot() {
     for (var i = 0; i < tableauPersonnages.length; i++) {
         var y = parseInt(tableauPersonnages[i].posY / 40);
         var x = parseInt((tableauPersonnages[i].posX + 15) / 35);
-        if (tableauNiveauObjects[y][x] != null)
-            if (tableauNiveauObjects[y][x].id == 4 && (tableauPersonnages[i].id == 0 ||
-                    (tableauPersonnages[i].id != 0 && tableauPersonnages[i].nbIngots == 0))) {
-                tableauNiveauObjects[y][x] = tableauNiveauObjects[0][0];
-                tableauPersonnages[i].nbIngots++;
-                if (i == 0){
-                  scoreDeCeNiveau += 250;
-                  auCoin.load();
-                  auCoin.play();
+        if(!tableauPersonnages[i].falling){
+            if (tableauNiveauObjects[y][x] != null) {
+                if (tableauNiveauObjects[y][x].id == 4 && (tableauPersonnages[i].id == 0 ||
+                        (tableauPersonnages[i].id != 0 && tableauPersonnages[i].nbIngots == 0))) {
+                    tableauNiveauObjects[y][x] = tableauNiveauObjects[0][0];
+                    tableauPersonnages[i].nbIngots++;
+                    if (i == 0){
+                      scoreDeCeNiveau += 250;
+                      auCoin.load();
+                      auCoin.play();
+                    }
                 }
             }
+        }
     }
 }
 
