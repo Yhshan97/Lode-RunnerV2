@@ -65,6 +65,7 @@ function bougerGardes() {
                         objet.visible = true;
                         tableauNiveauObjects[y][x + variable] = objet;
                         tableauPersonnages[i].nbIngots--;
+                        auMoney.play();
                     }
                 }
         }
@@ -72,6 +73,7 @@ function bougerGardes() {
         if (tableauPersonnages[i].nbPas <= 0 && tableauPersonnages[i].mouvement == "sortir") {
             tableauPersonnages[i].mouvement = "floating";
             tableauPersonnages[i].nbPas = 20;
+            auGuard.play();
         }
         if (tableauPersonnages[i].nbPas <= 0 && tableauPersonnages[i].mouvement == "floating") {
             tableauPersonnages[i].mouvement = "";
@@ -101,6 +103,7 @@ function bougerGardes() {
                 objet.visible = true;
                 tableauNiveauObjects[y - 1][x] = objet;
                 tableauPersonnages[i].nbIngots--;
+                auMoney.play();
             }
             if (tableauPersonnages[i].stunTime == 0 && tableauPersonnages[i].mouvement != "stunned" && tableauPersonnages[i].mouvement != "sortir" &&
                 tableauPersonnages[i].mouvement != "floating") {

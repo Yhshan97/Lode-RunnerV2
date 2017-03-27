@@ -170,6 +170,8 @@ function creuserGauche(runner) {
             objMurCreusee.y = y + 1;
             objMurCreusee.ms = msCumulee + 8000;
             tableauMursCreusees.push(objMurCreusee);
+            auBrick.load();
+            auBrick.play();
         }
 }
 
@@ -189,6 +191,8 @@ function creuserDroite(runner) {
             objMurCreusee.y = y + 1;
             objMurCreusee.ms = msCumulee + 8000;
             tableauMursCreusees.push(objMurCreusee);
+            auBrick.load();
+            auBrick.play();
         }
 }
 
