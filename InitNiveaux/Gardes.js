@@ -47,8 +47,8 @@ function bougerGardes() {
             if (tableauPersonnages[i].mouvement == "bas") descendre(tableauPersonnages[i]);
             if (tableauPersonnages[i].mouvement == "sortir") monter(tableauPersonnages[i], true);
             if (tableauNiveauObjects[parseInt((tableauPersonnages[i].posY) / 40) + 1][x + 1] != null && tableauNiveauObjects[parseInt((tableauPersonnages[i].posY) / 40) + 1][x - 1] != null)
-                if (randomDropIngot == 23 && tableauNiveauObjects[parseInt((tableauPersonnages[i].posY) / 40) + 1][x - 1].id == 1
-                && tableauNiveauObjects[parseInt((tableauPersonnages[i].posY) / 40) + 1][x - 1].visible &&
+                if (randomDropIngot == 23 && tableauNiveauObjects[parseInt((tableauPersonnages[i].posY) / 40) + 1][x - 1].id == 1 &&
+                    tableauNiveauObjects[parseInt((tableauPersonnages[i].posY) / 40) + 1][x - 1].visible &&
                     tableauNiveauObjects[parseInt((tableauPersonnages[i].posY) / 40)][x - 1].id == 0 && tableauNiveauObjects[parseInt((tableauPersonnages[i].posY) / 40) + 1][x + 1].id == 1 &&
                     tableauNiveauObjects[parseInt((tableauPersonnages[i].posY) / 40)][x + 1].visible && tableauNiveauObjects[parseInt((tableauPersonnages[i].posY) / 40)][x + 1].id == 0 &&
                     tableauPersonnages[i].nbIngots == 1) {
@@ -91,9 +91,10 @@ function bougerGardes() {
             initTrouverSpawnPourGarde(tableauPersonnages[i]);
         }
         if (tableauNiveauObjects[y][x].id == 1 && !tableauNiveauObjects[y][x].visible &&
-            tableauNiveauObjects[y][x].x == x * 35 && tableauNiveauObjects[y][x].y == y * 40) {
-            console.log((x * 35) + " " + (y * 40) + " " + tableauPersonnages[i].nbIngots + " " + tableauNiveauObjects[y][x].x + " " + tableauNiveauObjects[y][x].y);
+            tableauNiveauObjects[y][x].x == tableauPersonnages[i].posX && tableauNiveauObjects[y][x].y == tableauPersonnages[i].posY ) {
+
             if (tableauPersonnages[i].nbIngots == 1) {
+                console.log(tableauPersonnages[i].posX + " " + (y * 40) + " " + tableauPersonnages[i].nbIngots + " " + tableauNiveauObjects[y][x].x + " " + tableauNiveauObjects[y][x].y);
                 var objet = new Object();
                 objet.name = "Ingot";
                 objet.id = 4;
@@ -120,14 +121,14 @@ function bougerGardes() {
 function initTrouverSpawnPourGarde(runner) {
     var random2 = 0;
     var trouve = false;
-    while (!trouve)
-        for (var y = 0; y < tableauNiveauObjects.length - 3 && !trouve; y++)
-            for (var x = 0; x < tableauNiveauObjects[y].length && !trouve; x++)
-                if (tableauNiveauObjects[y][x].id == 0 && tableauNiveauObjects[y + 1][x].id == 1 && tableauNiveauObjects[y + 2][x].id != 9) {
-                    random2 = Math.floor((Math.random() * 30) + 1);
+    while (!trouve) {
+        for (var y = 0; y < tableauNiveauObjects.length - 3 && !trouve && !active; y++) {
+            for (var x = 0; x < tableauNiveauObjects[y].length && !trouve; x++) {
+                if (tableauNiveauObjects[y][x].id == 0 && tableauNiveauObjects[y + 1][x].id == 1 && tableauNiveauObjects[y + 2][x].id != 9 && y != tableauPersonnages[0].posY) {
+                    random2 = Math.floor((Math.random() * 50) + 1);
                     trouve = true;
                     for (var i = 0; i < tableauPersonnages.length && trouve; i++) {
-                        if (x == parseInt((tableauPersonnages[i].posX + 15) / 35) && y == parseInt(tableauPersonnages[i].posY) / 40 )
+                        if (x == parseInt((tableauPersonnages[i].posX + 15) / 35) && y == parseInt(tableauPersonnages[i].posY) / 40)
                             trouve = false;
                     }
                     if (trouve && random2 == 5) {
@@ -137,4 +138,25 @@ function initTrouverSpawnPourGarde(runner) {
                         trouve = false;
 
                 }
+            }
+        }
+        for (var x2 = 0; x2 < tableauNiveauObjects[1].length && active && !trouve; x2++) {
+            if (tableauNiveauObjects[1][x2].id == 0 && tableauNiveauObjects[2][x2].id == 1) {
+                debugger;
+                random2 = Math.floor((Math.random() * 30) + 1);
+                trouve = true;
+                for (var i = 0; i < tableauPersonnages.length && trouve; i++) {
+                    if (x2 == parseInt((tableauPersonnages[i].posX + 15) / 35) && 1 == parseInt(tableauPersonnages[i].posY) / 40)
+                        trouve = false;
+                }
+                if (trouve && random2 == 5) {
+                    runner.posY = tableauNiveauObjects[1][x2].y;
+                    runner.posX = tableauNiveauObjects[1][x2].x;
+                } else
+                    trouve = false;
+
+            }
+
+        }
+    }
 }

@@ -129,55 +129,55 @@
 			for (i = 0; i < tableauNiveauObjects.length; i++)
 				tableauNiveauObjects[i] = new Array(28);
 		}
-/*
-		function initSons() {
-			objetSons = new Object();
+		/*
+				function initSons() {
+					objetSons = new Object();
 
-			var son = document.createElement('audio');
-			son.setAttribute('src', 'sources/Coin.mp3');
-			son.load();
-			sons.ramasseIngot = son;
+					var son = document.createElement('audio');
+					son.setAttribute('src', 'sources/Coin.mp3');
+					son.load();
+					sons.ramasseIngot = son;
 
-			son = document.createElement('audio');
-			son.setAttribute('src', 'sources/ .mp3');
-			son.load();
-			sons.faitUneChute = son;
+					son = document.createElement('audio');
+					son.setAttribute('src', 'sources/ .mp3');
+					son.load();
+					sons.faitUneChute = son;
 
-			son = document.createElement('audio');
-			son.setAttribute('src', 'sources/ .mp3');
-			son.load();
-			sons.creuseUnTrou = son;
+					son = document.createElement('audio');
+					son.setAttribute('src', 'sources/ .mp3');
+					son.load();
+					sons.creuseUnTrou = son;
 
-			son = document.createElement('audio');
-			son.setAttribute('src', 'sources/ .mp3');
-			son.load();
-			sons.trouSeRemplit = son;
+					son = document.createElement('audio');
+					son.setAttribute('src', 'sources/ .mp3');
+					son.load();
+					sons.trouSeRemplit = son;
 
-			son = document.createElement('audio');
-			son.setAttribute('src', 'sources/ .mp3');
-			son.load();
-			sons.perdUneVie = son;
+					son = document.createElement('audio');
+					son.setAttribute('src', 'sources/ .mp3');
+					son.load();
+					sons.perdUneVie = son;
 
-			son = document.createElement('audio');
-			son.setAttribute('src', 'sources/ .mp3');
-			son.load();
-			sons.gameOver = son;
+					son = document.createElement('audio');
+					son.setAttribute('src', 'sources/ .mp3');
+					son.load();
+					sons.gameOver = son;
 
-			son = document.createElement('audio');
-			son.setAttribute('src', 'sources/ .mp3');
-			son.load();
-			sons.prochainNiveau = son;
+					son = document.createElement('audio');
+					son.setAttribute('src', 'sources/ .mp3');
+					son.load();
+					sons.prochainNiveau = son;
 
-			son = document.createElement('audio');
-			son.setAttribute('src', 'sources/ .mp3');
-			son.load();
-			sons.gardeTombeDansTrou = son;
+					son = document.createElement('audio');
+					son.setAttribute('src', 'sources/ .mp3');
+					son.load();
+					sons.gardeTombeDansTrou = son;
 
-			son = document.createElement('audio');
-			son.setAttribute('src', 'sources/ .mp3');
-			son.load();
-			sons.gardeMeurt = son;
-		}*/
+					son = document.createElement('audio');
+					son.setAttribute('src', 'sources/ .mp3');
+					son.load();
+					sons.gardeMeurt = son;
+				}*/
 
 		function chrono() {
 			var milli = msCumulee % 1000;
@@ -356,10 +356,11 @@
 
 <body onload="initAnimation()">
 	<main>
-		<canvas id="monCanvas" width="980" height="700" tabindex="1" onkeydown="mettreEnMouvement(event)" onkeyup="pasMettreEnMouvement(event)">
+		<p align="center">
+			<canvas id="monCanvas" width="980" height="700" tabindex="1" onkeydown="mettreEnMouvement(event)" onkeyup="pasMettreEnMouvement(event)">
 		    Votre navigateur ne supporte pas la balise canvas
 	    </canvas>
-	</main>
+		</p>
 </body>
 
 </html>
