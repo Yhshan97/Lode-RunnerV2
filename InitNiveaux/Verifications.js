@@ -1,6 +1,7 @@
 function estUneChute(runner) {
     var y = parseInt(runner.posY / 40);
     var x = parseInt((runner.posX + 15) / 35);
+    var soundActive = 0;
     if (tableauNiveauObjects[y + 1][x] != null && tableauNiveauObjects[y][x] != null) {
         var boolean2 = true;
         for (var i = 0; i < tableauPersonnages.length; i++) // Check si un personnage est tombe dans le trou
@@ -11,13 +12,12 @@ function estUneChute(runner) {
         var boolean = (tableauNiveauObjects[y][x].id != 3 && (tableauNiveauObjects[y + 1][x].id == 0 || tableauNiveauObjects[y + 1][x].id == 4 ||
             tableauNiveauObjects[y + 1][x].id == 3 || (tableauNiveauObjects[y + 1][x].id == 1 &&
                 tableauNiveauObjects[y + 1][x].visible == false))) && boolean2;
-        if (runner.id == 0){
-            if(boolean){
-              auFall.play();
+        if (runner.id == 0) {
+            if (boolean && auFall.paused) {
+                auFall.play();
             }
             return boolean;
-          }
-        else
+        } else
             return boolean && tableauNiveauObjects[y][x].id != 1 && runner.mouvement != "sortir" && runner.mouvement != "floating";
     }
 }
@@ -26,16 +26,16 @@ function collisionBarreIngot() {
     for (var i = 0; i < tableauPersonnages.length; i++) {
         var y = parseInt(tableauPersonnages[i].posY / 40);
         var x = parseInt((tableauPersonnages[i].posX + 15) / 35);
-        if(!tableauPersonnages[i].falling){
+        if (!tableauPersonnages[i].falling) {
             if (tableauNiveauObjects[y][x] != null) {
                 if (tableauNiveauObjects[y][x].id == 4 && (tableauPersonnages[i].id == 0 ||
                         (tableauPersonnages[i].id != 0 && tableauPersonnages[i].nbIngots == 0))) {
                     tableauNiveauObjects[y][x] = tableauNiveauObjects[0][0];
                     tableauPersonnages[i].nbIngots++;
-                    if (i == 0){
-                      scoreDeCeNiveau += 250;
-                      auCoin.load();
-                      auCoin.play();
+                    if (i == 0) {
+                        scoreDeCeNiveau += 250;
+                        auCoin.load();
+                        auCoin.play();
                     }
                 }
             }

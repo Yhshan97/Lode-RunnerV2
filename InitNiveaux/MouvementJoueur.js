@@ -123,19 +123,18 @@ function tomber(runner) {
         runner.posY += 2;
     else
         runner.posY += 1;
-
-    if (tableauNiveauObjects[parseInt(runner.posY / 40) + 1][parseInt((runner.posX + 15) / 35)].id == 0){
-        runner.falling = true;
+/*
+    if (estUneChute(runner)){
+        runner.falling = estUneChute(runner);
         if(runner.id==0){
           auFall.play();
         }
       }
-    else {
-      runner.falling = false;
+    else  {
       auFall.pause();
       auFall.load();
     }
-
+*/
 }
 
 
