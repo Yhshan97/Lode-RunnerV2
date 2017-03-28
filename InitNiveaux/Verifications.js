@@ -51,7 +51,9 @@ function verifierCollisionsEtMortDeLodeRunner() {
         if (tableauPersonnages[0].posY < tableauPersonnages[i].posY + 35 && tableauPersonnages[0].posY + 35 > tableauPersonnages[i].posY &&
             tableauPersonnages[0].posX < tableauPersonnages[i].posX + 30 && tableauPersonnages[0].posX + 30 > tableauPersonnages[i].posX)
             tableauPersonnages[0].mort = true;
-
+    if(tableauPersonnages[0].mort == true){
+        auDeath.play();
+    }
 }
 
 function verifierToutPersonnagesChute() {
