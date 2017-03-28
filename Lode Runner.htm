@@ -47,6 +47,9 @@
 		var auGuard = new Audio("sources/Guard Fall.mp3");
 		var auMoney = new Audio("sources/Money fall.mp3");
 		var auDeath = new Audio("sources/Death.mp3");
+		var auGuardDeath = new Audio("sources/Guard Death.mp3");
+		var auGame = new Audio("sources/Game Over.mp3");
+		var auNiveau = new Audio("sources/New Level.mp3");
 
 		/* TO DO LIST :
 			-Create display of the score / lives / time passed - ALain
@@ -79,6 +82,8 @@
 			gameOver.boo = false;
 			gameOver.rotation = 0;
 
+			auNiveau.play();
+
 			reinit();
 			animer();
 		}
@@ -94,6 +99,7 @@
 			initTableauNiveau1();
 			initTableauObjects();
 			creerTableauNiveauObjects();
+
 			//generer tous les gardes
 			initPersonnage(0, objCanvas.width / 2, 14 * 40);
 			for (var i = 1; i < nbGardes + 1; i++)

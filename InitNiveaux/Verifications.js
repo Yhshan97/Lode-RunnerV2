@@ -110,4 +110,6 @@ function prochainNiveau() {
         nbGardes++;
     scoreDeCeNiveau += 1500;
     scoreTotal += scoreDeCeNiveau;
+    auGame.play();
+
 }

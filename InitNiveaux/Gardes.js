@@ -89,6 +89,8 @@ function bougerGardes() {
             tableauPersonnages[i].nbPas = 0;
             scoreDeCeNiveau += 75;
             initTrouverSpawnPourGarde(tableauPersonnages[i]);
+            auGuardDeath.load();
+            auGuardDeath.play();
         }
         if (tableauNiveauObjects[y][x].id == 1 && !tableauNiveauObjects[y][x].visible &&
             tableauNiveauObjects[y][x].x == tableauPersonnages[i].posX && tableauNiveauObjects[y][x].y == tableauPersonnages[i].posY ) {
