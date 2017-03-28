@@ -34,6 +34,7 @@
 		var scoreDeCeNiveau = 0;
 		var scoreTotal = 0;
 		var vies = 5;
+		var niveau = 1;
 
 		var active = null;
 		var gameOver = new Object();
@@ -221,10 +222,10 @@
 				msCumulee + " " + parseInt(scoreTotal + scoreDeCeNiveau) + " " + scoreDeCeNiveau + " " + tableauPersonnages[0].falling, 300, 30);
 
 			objC2D.restore();
-			objC2D.font = '15pt Arial';
+			objC2D.font = '18pt Broadway';
 			objC2D.fillText("Temps écoulé: " + strTemps, 25, 690);
-			objC2D.fillText("Vies: " + vies, objCanvas.width / 4 + 75, 690);
-			objC2D.fillText("Nombre d'ingots trouvés: " + tableauPersonnages[0].nbIngots, objCanvas.width / 2, 690);
+			objC2D.fillText("Vies: " + vies, objCanvas.width/4 + 125, 690);
+			objC2D.fillText("Score: " + parseInt(scoreTotal + scoreDeCeNiveau), objCanvas.width/2 + 100, 690);
 			objC2D.fillText("Niveau: " + (nbGardes - 2), objCanvas.width / 4 * 3 + 100, 690);
 		}
 
