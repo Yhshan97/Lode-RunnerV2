@@ -115,6 +115,7 @@ function tomber(runner) {
         runner.nbFoisMemeEtat = 0;
     } else if (runner.etat2 == 1 && runner.nbFoisMemeEtat == 6) {
         runner.etat2--;
+
         runner.nbFoisMemeEtat = 0;
     }
     runner.nbFoisMemeEtat++;
