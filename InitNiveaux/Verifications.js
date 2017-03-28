@@ -70,7 +70,7 @@ function verifierProximiteGardes(){
 					tableauPersonnages[x].mouvement = "gauche"
 				else if(tableauPersonnages[i].mouvement == "droite")
 					tableauPersonnages[i].mouvement = "gauche"
-				
+
 				if(tableauPersonnages[x].mouvement == "haut")
 					tableauPersonnages[x].mouvement = "bas"
 				else if(tableauPersonnages[i].mouvement == "haut")
@@ -134,7 +134,7 @@ function finitNiveau() {
 }
 
 function prochainNiveau() {
-    if (nbGardes < 10)
+    if (nbGardes < 13)
         nbGardes++;
     scoreDeCeNiveau += 1500;
     scoreTotal += scoreDeCeNiveau;
