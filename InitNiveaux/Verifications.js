@@ -44,8 +44,8 @@ function collisionBarreIngot() {
 }
 
 function verifierCollisionsEtMortDeLodeRunner() {
-    if (tableauNiveauObjects[parseInt(tableauPersonnages[0].posY / 40)][parseInt((tableauPersonnages[0].posX + 15) / 35)].id == 1 &&
-        tableauNiveauObjects[parseInt(tableauPersonnages[0].posY / 40)][parseInt((tableauPersonnages[0].posX + 15) / 35)].visible)
+    if (tableauNiveauObjects[parseInt((tableauPersonnages[0].posY+35) / 40)][parseInt((tableauPersonnages[0].posX + 15) / 35)].id == 1 &&
+        tableauNiveauObjects[parseInt((tableauPersonnages[0].posY+35) / 40)][parseInt((tableauPersonnages[0].posX + 15) / 35)].visible)
         tableauPersonnages[0].mort = true; //Si le trou s'est rempli sur lui
     for (var i = 1; i < tableauPersonnages.length; i++) //Collision des autres personnages
         if (tableauPersonnages[0].posY < tableauPersonnages[i].posY + 35 && tableauPersonnages[0].posY + 35 > tableauPersonnages[i].posY &&
@@ -54,6 +54,34 @@ function verifierCollisionsEtMortDeLodeRunner() {
     if(tableauPersonnages[0].mort == true){
         auDeath.play();
     }
+}
+
+function verifierProximiteGardes(){
+	for (var i = 1; i < tableauPersonnages.length; i++)
+	for (var x = 1; x < tableauPersonnages.length; x++) //Collision des autres personnages
+        if (tableauPersonnages[x].posY < tableauPersonnages[i].posY + 70 && tableauPersonnages[x].posY + 70 > tableauPersonnages[i].posY &&
+            tableauPersonnages[x].posX < tableauPersonnages[i].posX + 60 && tableauPersonnages[x].posX + 60 > tableauPersonnages[i].posX && i != x){
+				if(tableauPersonnages[x].mouvement == "gauche")
+					tableauPersonnages[x].mouvement = "droite"
+				else if(tableauPersonnages[i].mouvement == "gauche")
+					tableauPersonnages[i].mouvement = "droite"
+
+				if(tableauPersonnages[x].mouvement == "droite")
+					tableauPersonnages[x].mouvement = "gauche"
+				else if(tableauPersonnages[i].mouvement == "droite")
+					tableauPersonnages[i].mouvement = "gauche"
+				
+				if(tableauPersonnages[x].mouvement == "haut")
+					tableauPersonnages[x].mouvement = "bas"
+				else if(tableauPersonnages[i].mouvement == "haut")
+					tableauPersonnages[i].mouvement = "bas"
+
+				if(tableauPersonnages[x].mouvement == "bas")
+					tableauPersonnages[x].mouvement = "haut"
+				else if(tableauPersonnages[i].mouvement == "bas")
+					tableauPersonnages[i].mouvement = "haut"
+
+			}
 }
 
 function verifierToutPersonnagesChute() {
